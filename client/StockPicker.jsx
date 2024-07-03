@@ -18,6 +18,7 @@ const StockPicker = () => {
     },[]);
     console.log("stockInfo: ",stockInfo);
     const dropdownInfo = stockInfo.map((val, ind, arr) => {
+        if(ind < 5)
         return <option value={val["1. symbol"]} key={val["1. symbol"] + "-" + ind}>{val["2. name"]}</option>
     });
 
