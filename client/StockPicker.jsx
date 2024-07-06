@@ -1,9 +1,11 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+// import { SelectedStock } from './SelectedStock';
+import SelectedStock from './SelectedStock';
 
 const StockPicker = () => {
     let [searchInput, setSearchInput] = useState([]);
-    let [stockInfo, setStockInfo] = useState([]);
+    let [stockInfo, setStockInfo] = useState({});
     const typeInSearch = (event) => {
         if(localStorage.getItem(event.target.value)){
             setSearchInput(JSON.parse(localStorage.getItem(event.target.value)));
@@ -33,21 +35,10 @@ const StockPicker = () => {
     const clickOnSearchResult = (event) => {
         const targetText = event.target.innerText;
         console.log('targetText :', targetText);
-        let resultClicked = [];
         if(searchInput.length){
-            resultClicked = searchInput.map((val, ind, arr) => {
-                if(targetText === val["2. name"]) {
-                    return (<div id="selectedStock">
-                        <h1>Symbol: {val["1. symbol"]}</h1>
-                        <h1>Name: {val["2. name"]}</h1>
-                        <h1>Type: {val["3. type"]}</h1>
-                        <h1>Region: {val["4. region"]}</h1>
-                        <h1>Currency: {val["8. currency"]}</h1>
-                    </div>);
-                }
-            });
+            return setStockInfo(searchInput.find((element) => targetText === element["2. name"]));
         }
-        setStockInfo(resultClicked);
+        
     };
 
     let dropdownInfo = [];
@@ -66,7 +57,7 @@ const StockPicker = () => {
             <h2>
                 {dropdownInfo}
             </h2>
-            <div>{stockInfo}</div>
+            <div><SelectedStock val={stockInfo} /></div>
         </>
     )
 }
